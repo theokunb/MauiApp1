@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.SignUpPage"
+             Shell.NavBarIsVisible="True"
+             Title="{Binding DisplayTitle}">
+    <Grid Margin="10">
+        <StackLayout Orientation="Vertical"
+                     Spacing="10"
+                     VerticalOptions="Fill">
+            <Entry Text="{Binding Email}"
+                   Placeholder="{Binding DisplayEmail}"
+                   HorizontalOptions="Center"
+                   WidthRequest="250"/>
+            <Entry Text="{Binding Password1}"
+                   IsPassword="True"
+                   Placeholder="{Binding DisplayPassword}"
+                   HorizontalOptions="Center"
+                   WidthRequest="250"/>
+            <Entry Text="{Binding Password2}"
+                   IsPassword="True"
+                   Placeholder="{Binding DisplayRepeatPassword}"
+                   HorizontalOptions="Center"
+                   WidthRequest="250"/>
+            <FlexLayout HorizontalOptions="Center"
+                        Direction="Row"
+                        Wrap="Wrap"
+                        AlignItems="Center"
+                        JustifyContent="Center"
+                        HeightRequest="50">
+                <Label Text="{Binding DisplayIAgreeWith}"/>
+                <Label Text="{Binding DisplayTermOfUserAgreement}"/>
+                <CheckBox IsChecked="{Binding IsAccepted}"/>
+            </FlexLayout>
+            <Button Text="{Binding DisplaySignUp}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="EndAndExpand"
+                    WidthRequest="250"
+                    Command="{Binding CommandSignUp}"
+                    IsEnabled="{Binding IsAccepted}"/>
+        </StackLayout>
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>

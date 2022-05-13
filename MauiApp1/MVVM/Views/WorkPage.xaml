@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:help="clr-namespace:MauiApp1.Helpers"
+             x:Class="MauiApp1.WorkPage"
+             Title="{Binding DisplayTitle}">
+    <ContentPage.Behaviors>
+        <help:EventToCommandBehavior EventName="Appearing"
+                                     Command="{Binding CommandAppearing}"/>
+    </ContentPage.Behaviors>
+    <StackLayout>
+        <Label Text="Welcome to .NET !"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+        <Button Text="{Binding DisplayLogOut}"
+                Command="{Binding CommandBack}"/>
+    </StackLayout>
+</ContentPage>

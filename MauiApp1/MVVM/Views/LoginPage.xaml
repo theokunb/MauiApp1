@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="clr-namespace:MauiApp1.Helpers"
+             x:Class="MauiApp1.LoginPage"
+             Title="{Binding DisplayTitle}"
+             Shell.TabBarIsVisible="True">
+    <Grid>
+        <StackLayout Orientation="Vertical"
+                     Spacing="15"
+                     Margin="10">
+            <Picker ItemsSource="{Binding Languages}"
+                    SelectedItem="{Binding SelectedLanguage}"
+                    ItemDisplayBinding="{Binding Label}"
+                    HorizontalOptions="StartAndExpand"
+                    x:Name="languagePicker">
+                <Picker.Behaviors>
+                    <xct:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                Command="{Binding CommandPickerChanged}"
+                                                CommandParameter="{Binding SelectedItem,Source={x:Reference languagePicker}}"/>
+                </Picker.Behaviors>
+            </Picker>
+                <Image Source="dotnet_bot.png"
+                   WidthRequest="250"
+                   HeightRequest="310"
+                   HorizontalOptions="Center"
+                   Margin="0,20"/>
+            <Entry Text="{Binding Email}"
+                   Placeholder="{Binding DisplayEmail}"
+                   HorizontalOptions="Center"
+                   WidthRequest="250"/>
+            <Entry Text="{Binding Password}"
+                   IsPassword="True"
+                   Placeholder="{Binding DisplayPassword}"
+                   HorizontalOptions="Center"
+                   WidthRequest="250"/>
+            <Label Text="{Binding DisplayForgotPassword}"
+                   TextColor="{StaticResource Primary}"
+                   HorizontalOptions="Center"/>
+            <Button Text="{Binding DisplaySignIn}"
+                    HorizontalOptions="Center"
+                    WidthRequest="250"
+                    Command="{Binding CommandLogin}"/>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="10">
+                <Label Text="{Binding DisplayNoAccount}"/>
+                <Label Text="{Binding DisplaySignUp}"
+                       TextColor="{StaticResource Primary}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CommandSignUp}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </StackLayout>
+        
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+    </Grid>
+</ContentPage>
