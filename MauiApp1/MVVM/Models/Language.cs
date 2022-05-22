@@ -31,7 +31,8 @@
         public abstract string Main { get; }
         public abstract string LogOut { get; }
         public abstract string Profile { get; }
+        public abstract string DeleteSelectedImage { get; }
 
-        public abstract Language Accept(ILanguageVisitor visitor);
+        public abstract void Accept(ILanguageVisitor visitor);
     }
 }

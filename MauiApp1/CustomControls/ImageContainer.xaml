@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiApp1.CustomControls.ImageContainer"
+             x:Name="content">
+    <CollectionView x:Name="collection">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Image Source="{Binding ImagePath}"
+                               Aspect="AspectFit"/>
+                    <Button Text="X"
+                                VerticalOptions="Start"
+                                HorizontalOptions="End"
+                                Margin="5"
+                                BackgroundColor="Transparent"
+                                TextColor="Red"
+                                Command="{Binding Source={Reference content},Path=RemoveCommand}"
+                                CommandParameter="{Binding .}"/>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentView>

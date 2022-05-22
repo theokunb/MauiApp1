@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:helper="clr-namespace:MauiApp1.Helpers"
+             xmlns:custom="clr-namespace:MauiApp1.CustomControls"
              x:Class="MauiApp1.UserProfilePage"
-             Title="{Binding DisplayTitle}">
+             Title="{Binding DisplayTitle}"
+             x:Name="content">
     <ContentPage.Behaviors>
         <helper:EventToCommandBehavior EventName="Appearing"
                                        Command="{Binding CommandAppearing}"/>
@@ -11,24 +13,30 @@
     <ScrollView Orientation="Vertical"
                 VerticalScrollBarVisibility="Never"
                 Margin="10">
-        <StackLayout Orientation="Vertical">
+        <VerticalStackLayout>
+            <Label Text="photos"/>
+            <custom:ImageContainer Images="{Binding ImageCollection}"
+                                   RemoveCommand="{Binding CommandRemoveImage}"/>
+            <Button Text="+"
+                    Command="{Binding CommandAddImage}"
+                    HorizontalOptions="Start"/>
             <Entry Text="{Binding Name}"
                    Placeholder="{Binding DisplayName}"
-                   HorizontalOptions="Center"
+                   HorizontalOptions="Start"
                    WidthRequest="250"/>
             <Entry Text="{Binding LastName}"
                    Placeholder="{Binding DisplayLastName}"
-                   HorizontalOptions="Center"
+                   HorizontalOptions="Start"
                    WidthRequest="250"/>
             <Entry Text="{Binding City}"
                    Placeholder="{Binding DisplayCity}"
-                   HorizontalOptions="Center"
+                   HorizontalOptions="Start"
                    WidthRequest="250"/>
 
             <Button Text="{Binding DisplaySave}"
                     HorizontalOptions="Center"
                     WidthRequest="250"
                     Command="{Binding CommandButtonSave}"/>
-        </StackLayout>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

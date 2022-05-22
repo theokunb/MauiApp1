@@ -2,17 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:help="clr-namespace:MauiApp1.Helpers"
-             x:Class="MauiApp1.WorkPage"
-             Title="{Binding DisplayTitle}">
+             x:Class="MauiApp1.WorkPage">
     <ContentPage.Behaviors>
         <help:EventToCommandBehavior EventName="Appearing"
                                      Command="{Binding CommandAppearing}"/>
     </ContentPage.Behaviors>
-    <StackLayout>
-        <Label Text="Welcome to .NET !"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-        <Button Text="{Binding DisplayLogOut}"
-                Command="{Binding CommandBack}"/>
-    </StackLayout>
+    <Shell.TitleView>
+        <FlexLayout JustifyContent="SpaceBetween"
+                    HorizontalOptions="Fill">
+            <Label Text="{Binding DisplayTitle}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start"/>
+            <Image Source="profile_image.png"
+                   HorizontalOptions="End"
+                   VerticalOptions="Center"
+                   WidthRequest="45"
+                   HeightRequest="45"
+                   Margin="5">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CommandOpenUserProfile}"/>
+                </Image.GestureRecognizers>
+            </Image>
+        </FlexLayout>
+    </Shell.TitleView>
+    <ScrollView Orientation="Vertical"
+                VerticalScrollBarVisibility="Never">
+        <StackLayout>
+            <Label Text="Welcome to .NET !"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center" />
+            <Button Text="{Binding DisplayLogOut}"
+                    Command="{Binding CommandBack}"/>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

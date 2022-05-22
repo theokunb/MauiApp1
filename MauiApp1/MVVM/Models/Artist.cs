@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.MVVM.Models
 {
-    public interface ILanguageVisitor
+    public class Artist
     {
-        void Visit(LanguageRU languageRU);
-        void Visit(LanguageEU languageEU);
+        public string Name { get; set; }
     }
 }

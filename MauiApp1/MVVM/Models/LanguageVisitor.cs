@@ -14,16 +14,14 @@ namespace MauiApp1.MVVM.Models
             language.Accept(this);
         }
 
-        public Language Visit(LanguageRU languageRU)
+        public void Visit(LanguageRU languageRU)
         {
             Preferences.Set(Strings.Language, languageRU.Label);
-            return languageRU;
         }
 
-        public Language Visit(LanguageEU languageEU)
+        public void Visit(LanguageEU languageEU)
         {
             Preferences.Set(Strings.Language, languageEU.Label);
-            return languageEU;
         }
     }
 }

@@ -61,9 +61,11 @@ namespace MauiApp1.MVVM.Models
 
         public override string Profile => "profile";
 
-        public override Language Accept(ILanguageVisitor visitor)
+        public override string DeleteSelectedImage => "delete selected image?";
+
+        public override void Accept(ILanguageVisitor visitor)
         {
-            return visitor.Visit(this);
+            visitor.Visit(this);
         }
     }
 }

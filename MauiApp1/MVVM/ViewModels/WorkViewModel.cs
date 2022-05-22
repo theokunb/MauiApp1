@@ -10,6 +10,7 @@ namespace MauiApp1.MVVM.ViewModels
         {
             CommandBack = new Command((param) => BackClicked(param));
             CommandAppearing = new Command((param) => OnAppearing(param));
+            CommandOpenUserProfile = new Command((param) => OnUserProfileClicked(param));
         }
 
 
@@ -17,7 +18,7 @@ namespace MauiApp1.MVVM.ViewModels
         public string DisplayLogOut => Localizator.Instance.SelectedLanguage.LogOut;
         public ICommand CommandBack { get; }
         public ICommand CommandAppearing { get; }
-
+        public ICommand CommandOpenUserProfile { get; }
 
         private async void BackClicked(object param)
         {
@@ -30,6 +31,10 @@ namespace MauiApp1.MVVM.ViewModels
         private void OnAppearing(object param)
         {
             OnPropertyChanged(null);
+        }
+        private async void OnUserProfileClicked(object param)
+        {
+            await Shell.Current.GoToAsync($"{nameof(UserProfilePage)}");
         }
     }
 }

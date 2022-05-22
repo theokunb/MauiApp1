@@ -11,7 +11,9 @@
     <TabBar Route="WorkSpace">
         <ShellContent ContentTemplate="{DataTemplate local:WorkPage}"
                       Title="WorkPage"/>
-        <ShellContent ContentTemplate="{DataTemplate local:UserProfilePage}"
-                      Title="Profile"/>
+        <ShellContent ContentTemplate="{DataTemplate local:LikesPage}"
+                      Title="Likes"/>
+        <ShellContent ContentTemplate="{DataTemplate local:MessagesPage}"
+                      Title="Messages"/>
     </TabBar>
 </Shell>
