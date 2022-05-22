@@ -11,9 +11,9 @@ public partial class ImageContainer : ContentView
 	}
 
 
-    public static readonly BindableProperty ImagesProperty = BindableProperty.Create(nameof(Images), typeof(IList<UserImage>), typeof(ImageContainer), null, propertyChanged: ImagesPropertyChanged);
+    public static readonly BindableProperty ImagesProperty = BindableProperty.Create(nameof(Images), typeof(IList<UserImage>), typeof(ImageContainer), null, BindingMode.TwoWay, propertyChanged: ImagesPropertyChanged);
     public static readonly BindableProperty RemoveCommandProperty = BindableProperty.Create(nameof(RemoveCommand), typeof(ICommand), typeof(ImageContainer), null);
-
+    public static readonly BindableProperty AddCommandProperty = BindableProperty.Create(nameof(AddCommand), typeof(ICommand), typeof(ImageContainer), null);
 
 
 
@@ -27,7 +27,11 @@ public partial class ImageContainer : ContentView
         get => GetValue(RemoveCommandProperty) as ICommand;
         set => SetValue(RemoveCommandProperty, value);
     }
-
+    public ICommand AddCommand
+    {
+        get => GetValue(AddCommandProperty) as ICommand;
+        set => SetValue(AddCommandProperty, value);
+    }
 
 
     private static void ImagesPropertyChanged(BindableObject bindable, object oldValue, object newValue)

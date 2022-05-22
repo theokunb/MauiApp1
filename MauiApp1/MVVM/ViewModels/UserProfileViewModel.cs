@@ -4,6 +4,7 @@ using MauiApp1.MVVM.Models;
 using MauiApp1.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,6 @@ namespace MauiApp1.MVVM.ViewModels
     {
         public UserProfileViewModel()
         {
-			imageCollection = new List<UserImage>();
 			CommandAppearing = new Command((param) => OnAppearing(param));
 			CommandButtonSave = new Command((param) => ButtonSaveClicked(param));
 			CommandAddImage = new Command((param) => ButtonAddClicked(param));
@@ -30,7 +30,6 @@ namespace MauiApp1.MVVM.ViewModels
 		private bool isGenderChecked;
 		private DateTime dateOfBirth;
 		private string city;
-		private IList<UserImage> imageCollection;
 
 		public string DisplayTitle => Localizator.Instance.SelectedLanguage.Profile;
 		public string DisplayName => Localizator.Instance.SelectedLanguage.Name;
@@ -43,15 +42,7 @@ namespace MauiApp1.MVVM.ViewModels
 		public ICommand CommandButtonSave { get; }
 		public ICommand CommandAddImage { get; }
 		public ICommand CommandRemoveImage { get; }
-		public IList<UserImage> ImageCollection
-        {
-			get=> imageCollection;
-            set
-            {
-				imageCollection = value;
-				OnPropertyChanged();
-            }
-        }
+		public ObservableCollection<UserImage> ImageCollection { get; set; } = new ObservableCollection<UserImage>();
 		public string City
 		{
 			get => city;
@@ -100,30 +91,45 @@ namespace MauiApp1.MVVM.ViewModels
 
 		private async void OnAppearing(object param)
 		{
-			OnPropertyChanged(null);
-
 			await Task.Factory.StartNew(async() =>
 			{
+				IsBusy = true;
+				for(int i = 0; i < 6; i++)
+					ImageCollection.Add(new UserImage());
 				authUser = await FBAuth.FireBaseAuth.GetProfileInfo();
 				userProfile = await RealTimeDB.RealTimeDatabase.GetUser(authUser.User.Email);
 				Name = userProfile.Name;
 				LastName = userProfile.LastName;
 				City = userProfile.City;
-				ImageCollection = userProfile.Images;
-			});
+				if (userProfile.Images.Count != 0)
+					for(int i = 0; i < userProfile.Images.Count; i++)
+						ImageCollection[i] = userProfile.Images[i];
+                OnPropertyChanged(null);
+				IsBusy = false;
+            });
 		}
 		private async void ButtonSaveClicked(object param)
 		{
+			if (IsBusy)
+				return;
+			IsBusy = true;
 			if (userProfile == null)
 				return;
 			userProfile.Name = Name;
 			userProfile.LastName = LastName;
 			userProfile.City = City;
 			await RealTimeDB.RealTimeDatabase.PatchUser(userProfile);
+			IsBusy = false;
         }
         private async void ButtonAddClicked(object param)
         {
-			var file = await MediaPicker.PickPhotoAsync();
+			if (param is not UserImage userImage)
+				return;
+			if (IsBusy)
+				return;
+			IsBusy = true;
+            var idEditableImage = ImageCollection.IndexOf(userImage);
+            var file = await MediaPicker.PickPhotoAsync();
 			if (file == null)
 				return;
 
@@ -135,13 +141,18 @@ namespace MauiApp1.MVVM.ViewModels
 				Title = file.FileName,
 				ImagePath = link
 			});
-			ImageCollection = userProfile.Images;
+			ImageCollection[idEditableImage] = userProfile.Images.Last();
             await RealTimeDB.RealTimeDatabase.PatchUser(userProfile);
+			IsBusy = false;
         }
         private async void ButtonRemoveClicked(object param)
         {
+			if (IsBusy)
+				return;
+			IsBusy = true;
             if(param is UserImage userImage)
             {
+				var idRemovableImage = ImageCollection.IndexOf(userImage);
 				var dialogResult = await Shell.Current.DisplayAlert(Localizator.Instance.SelectedLanguage.Warning,
 					Localizator.Instance.SelectedLanguage.DeleteSelectedImage,
 					Localizator.Instance.SelectedLanguage.Yes,
@@ -149,8 +160,12 @@ namespace MauiApp1.MVVM.ViewModels
 				if (!dialogResult)
 					return;
 				userProfile.Images.Remove(userImage);
-                ImageCollection = userProfile.Images;
+				ImageCollection[idRemovableImage] = new UserImage();
+
+				await FBStorage.Storage.RemoveDocument(Strings.StorageUserImages, userImage.Title);
+				await RealTimeDB.RealTimeDatabase.PatchUser(userProfile);
             }
+			IsBusy = false;
         }
     }
 }

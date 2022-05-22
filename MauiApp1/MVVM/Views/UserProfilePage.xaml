@@ -4,8 +4,7 @@
              xmlns:helper="clr-namespace:MauiApp1.Helpers"
              xmlns:custom="clr-namespace:MauiApp1.CustomControls"
              x:Class="MauiApp1.UserProfilePage"
-             Title="{Binding DisplayTitle}"
-             x:Name="content">
+             Title="{Binding DisplayTitle}">
     <ContentPage.Behaviors>
         <helper:EventToCommandBehavior EventName="Appearing"
                                        Command="{Binding CommandAppearing}"/>
@@ -13,13 +12,12 @@
     <ScrollView Orientation="Vertical"
                 VerticalScrollBarVisibility="Never"
                 Margin="10">
-        <VerticalStackLayout>
+        <StackLayout Orientation="Vertical">
             <Label Text="photos"/>
-            <custom:ImageContainer Images="{Binding ImageCollection}"
-                                   RemoveCommand="{Binding CommandRemoveImage}"/>
-            <Button Text="+"
-                    Command="{Binding CommandAddImage}"
-                    HorizontalOptions="Start"/>
+            <custom:ImageContainer Images="{Binding ImageCollection,Mode=TwoWay}"
+                                   RemoveCommand="{Binding CommandRemoveImage}"
+                                   AddCommand="{Binding CommandAddImage}"
+                                   HeightRequest="508"/>
             <Entry Text="{Binding Name}"
                    Placeholder="{Binding DisplayName}"
                    HorizontalOptions="Start"
@@ -37,6 +35,6 @@
                     HorizontalOptions="Center"
                     WidthRequest="250"
                     Command="{Binding CommandButtonSave}"/>
-        </VerticalStackLayout>
+        </StackLayout>
     </ScrollView>
 </ContentPage>

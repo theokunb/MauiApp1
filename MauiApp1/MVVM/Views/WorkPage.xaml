@@ -25,14 +25,11 @@
             </Image>
         </FlexLayout>
     </Shell.TitleView>
-    <ScrollView Orientation="Vertical"
-                VerticalScrollBarVisibility="Never">
-        <StackLayout>
-            <Label Text="Welcome to .NET !"
+    <StackLayout>
+        <Label Text="Welcome to .NET !"
                    VerticalOptions="Center" 
                    HorizontalOptions="Center" />
-            <Button Text="{Binding DisplayLogOut}"
+        <Button Text="{Binding DisplayLogOut}"
                     Command="{Binding CommandBack}"/>
-        </StackLayout>
-    </ScrollView>
+    </StackLayout>
 </ContentPage>
