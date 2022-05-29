@@ -131,17 +131,19 @@ namespace MauiApp1.MVVM.ViewModels
             var idEditableImage = ImageCollection.IndexOf(userImage);
             var file = await MediaPicker.PickPhotoAsync();
 			if (file == null)
-				return;
-
+            {
+				IsBusy = false;
+                return;
+            }
 			var uploadTask = await FBStorage.Storage.PutDocument(Strings.StorageUserImages, file);
 			var link = await uploadTask;
-
 			userProfile.Images.Add(new UserImage()
 			{
 				Title = file.FileName,
 				ImagePath = link
 			});
 			ImageCollection[idEditableImage] = userProfile.Images.Last();
+			OnPropertyChanged(null);
             await RealTimeDB.RealTimeDatabase.PatchUser(userProfile);
 			IsBusy = false;
         }
@@ -158,11 +160,16 @@ namespace MauiApp1.MVVM.ViewModels
 					Localizator.Instance.SelectedLanguage.Yes,
 					Localizator.Instance.SelectedLanguage.No);
 				if (!dialogResult)
-					return;
+                {
+					IsBusy = false;
+                    return;
+                }
 				userProfile.Images.Remove(userImage);
-				ImageCollection[idRemovableImage] = new UserImage();
+                await FBStorage.Storage.RemoveDocument(Strings.StorageUserImages, userImage.Title);
 
-				await FBStorage.Storage.RemoveDocument(Strings.StorageUserImages, userImage.Title);
+
+				ImageCollection[idRemovableImage] = new UserImage();
+				OnPropertyChanged(null);
 				await RealTimeDB.RealTimeDatabase.PatchUser(userProfile);
             }
 			IsBusy = false;

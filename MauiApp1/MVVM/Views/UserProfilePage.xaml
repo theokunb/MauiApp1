@@ -16,8 +16,7 @@
             <Label Text="photos"/>
             <custom:ImageContainer Images="{Binding ImageCollection,Mode=TwoWay}"
                                    RemoveCommand="{Binding CommandRemoveImage}"
-                                   AddCommand="{Binding CommandAddImage}"
-                                   HeightRequest="508"/>
+                                   AddCommand="{Binding CommandAddImage}"/>
             <Entry Text="{Binding Name}"
                    Placeholder="{Binding DisplayName}"
                    HorizontalOptions="Start"

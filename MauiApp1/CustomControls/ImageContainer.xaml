@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.CustomControls.ImageContainer"
              x:Name="content">
-    <CollectionView x:Name="collection" >
+    <CollectionView ItemsSource="{Binding Source={Reference content},Path=Images}"
+                    HeightRequest="508">
         <CollectionView.ItemsLayout>
             <GridItemsLayout Orientation="Vertical"
                              Span="3"/>
@@ -12,10 +13,14 @@
             <DataTemplate>
                 <Frame CornerRadius="10"
                        HeightRequest="250"
-                       Margin="2">
-                    <Grid Margin="-40">
+                       Margin="2"
+                       x:Name="frame">
+                    <Grid Margin="-20"
+                          HeightRequest="{Binding Source={x:Reference frame},Path=HeightRequest}"
+                          WidthRequest="{Binding Source={x:Reference frame},Path=WidthRequest}">
                         <Image Source="{Binding ImagePath}"
                                Aspect="AspectFill"
+                               HeightRequest="{Binding Source={x:Reference frame},Path=HeightRequest}"
                                IsVisible="True">
                             <Image.Triggers>
                                 <DataTrigger TargetType="Image" Binding="{Binding ImagePath}" Value="">
@@ -26,7 +31,6 @@
                         <Button Text="X"
                                 VerticalOptions="Start"
                                 HorizontalOptions="End"
-                                Margin="5"
                                 BackgroundColor="Transparent"
                                 TextColor="Red"
                                 Command="{Binding Source={Reference content},Path=RemoveCommand}"
@@ -38,9 +42,8 @@
                             </Button.Triggers>
                         </Button>
                         <Button Text="+"
+                                HeightRequest="{Binding Source={x:Reference frame},Path=HeightRequest}"
                                 FontSize="25"
-                                VerticalOptions="Fill"
-                                HorizontalOptions="Fill"
                                 TextColor="{x:StaticResource Primary}"
                                 BackgroundColor="Transparent"
                                 Command="{Binding Source={Reference content},Path= AddCommand}"
